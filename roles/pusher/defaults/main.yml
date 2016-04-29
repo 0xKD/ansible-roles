@@ -1,0 +1,7 @@
+---
+  local_repo_path: /path/to/local/repo
+  dest_repo_path: /path/to/destination/repo
+  dest_checkout_path: /path/to/destination/checkout
+  branch: master
+  build_user: build-user
+  build_host: 127.0.0.1

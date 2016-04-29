@@ -1,0 +1,3 @@
+---
+- name: checkout_on_builder
+  action: git repo={{ dest_repo_path }} dest={{ dest_checkout_path }} version={{ branch }}
