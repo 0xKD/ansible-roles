@@ -1,6 +1,10 @@
 # ansible-roles
 
-Some experiments with ansible
+Run the playbook like this
+
+```bash
+ansible-playbook builder.yml -e '{"repo_name":"my-repo","local_repo_path":"/home/ubuntu/repos/my-repo"}'
+```
 
 ## TODO
 
