@@ -1,0 +1,6 @@
+---
+- name: Push Code
+  hosts: dev
+
+  roles:
+    - pusher
