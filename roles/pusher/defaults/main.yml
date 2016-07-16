@@ -1,7 +1,5 @@
 ---
-  local_repo_path: /path/to/local/repo
-  dest_repo_path: /path/to/destination/repo
-  dest_checkout_path: /path/to/destination/checkout
+  local_repo_path: /path/to/local/repo  # override this
+  dest_repo_path: /home/{{ repo_owner }}/.git/{{ repo_name }}
+  dest_checkout_path: /home/{{ repo_owner }}/deploy/{{ repo_name }}
   branch: master
-  build_user: build-user
-  build_host: 127.0.0.1

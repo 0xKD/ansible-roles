@@ -1,23 +1,31 @@
 ---
+- include_vars: "{{ item }}"
+  with_first_found:
+    - skip: true  # do not throw an error if none of the below files are found
+    - "{{ ansible_distribution|lower }}.yml"
+    - "{{ ansible_os_family|lower }}.yml"
+
 - name: Create Repo Bare
   file: path={{ dest_repo_path }} state=directory
+
 - name: Create Repo Checkout
   become: yes
-  file: path={{ dest_checkout_path }} state=directory owner={{ build_user }} group={{ build_user }}
+  file: path={{ dest_checkout_path }} state=directory owner={{ repo_owner }} group={{ repo_owner }}
 
 - name: Check Bare Initialized
   action: shell cd {{ dest_repo_path }} && git rev-parse --is-bare-repository
   register: is_bare
   changed_when: false
   ignore_errors: yes
-  no_log: True
+  no_log: True  # to hide the error message (`fatal: Not a git repository..`)
 
 - name: Initialize Bare
   when: is_bare|failed
   action: shell cd {{ dest_repo_path }} && git init --bare
 
 - name: Push Local To Bare
-  local_action: shell cd {{ local_repo_path }} && git push -f --all --no-verify ssh://{{ build_user }}@{{ build_host }}:{{ dest_repo_path }}
+  # {{ inventory_hostname }} will be according to hosts file
+  local_action: shell cd {{ local_repo_path }} && git push -f --all --no-verify ssh://{{ repo_owner }}@{{ inventory_hostname }}:{{ dest_repo_path }}
   register: changes_pushed
   changed_when: "changes_pushed.stderr != 'Everything up-to-date'"
   notify: checkout_on_builder
